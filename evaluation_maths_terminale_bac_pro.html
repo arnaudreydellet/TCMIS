@@ -1,0 +1,888 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Évaluation Mathématiques – Terminale Bac Pro</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Source+Sans+3:wght@300;400;600&display=swap');
+
+  :root {
+    --ink: #1a1a2e;
+    --paper: #faf8f3;
+    --ruled: #e8e2d5;
+    --accent: #c0392b;
+    --accent-light: #fdecea;
+    --hint: #7f8c8d;
+    --border: #d0c9bb;
+    --green: #27ae60;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Source Sans 3', sans-serif;
+    background: #ede9e0;
+    color: var(--ink);
+    min-height: 100vh;
+    padding: 30px 20px 60px;
+  }
+
+  .page-wrapper {
+    max-width: 800px;
+    margin: 0 auto;
+  }
+
+  /* HEADER */
+  .exam-header {
+    background: var(--paper);
+    border: 2px solid var(--ink);
+    padding: 28px 36px 24px;
+    margin-bottom: 0;
+    position: relative;
+  }
+
+  .exam-header::before {
+    content: '';
+    position: absolute;
+    top: 6px; left: 6px; right: -6px; bottom: -6px;
+    background: var(--ink);
+    z-index: -1;
+  }
+
+  .header-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 16px;
+  }
+
+  .school-info {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--hint);
+    line-height: 1.8;
+  }
+
+  .exam-badge {
+    background: var(--accent);
+    color: white;
+    font-size: 10px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    padding: 5px 12px;
+    border-radius: 2px;
+  }
+
+  .exam-title {
+    font-family: 'Libre Baskerville', serif;
+    font-size: 26px;
+    font-weight: 700;
+    line-height: 1.2;
+    margin-bottom: 6px;
+  }
+
+  .exam-subtitle {
+    font-size: 13px;
+    color: var(--hint);
+    font-style: italic;
+    margin-bottom: 20px;
+  }
+
+  .meta-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    border-top: 1px solid var(--border);
+    padding-top: 16px;
+  }
+
+  .meta-item label {
+    display: block;
+    font-size: 9px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--hint);
+    margin-bottom: 4px;
+  }
+
+  .meta-item input[type="text"] {
+    width: 100%;
+    border: none;
+    border-bottom: 1.5px solid var(--ink);
+    background: transparent;
+    font-family: 'Source Sans 3', sans-serif;
+    font-size: 14px;
+    padding: 2px 0;
+    color: var(--ink);
+    outline: none;
+  }
+
+  .meta-item input[type="text"]:focus {
+    border-bottom-color: var(--accent);
+  }
+
+  /* INSTRUCTIONS */
+  .instructions {
+    background: var(--accent-light);
+    border-left: 4px solid var(--accent);
+    padding: 14px 20px;
+    margin: 20px 0;
+    font-size: 13px;
+    line-height: 1.7;
+  }
+
+  .instructions strong { color: var(--accent); }
+
+  /* EXERCISE */
+  .exercise {
+    background: var(--paper);
+    border: 1.5px solid var(--border);
+    margin-bottom: 20px;
+    position: relative;
+  }
+
+  .exercise-header {
+    background: var(--ink);
+    color: white;
+    padding: 10px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .exercise-number {
+    font-family: 'Libre Baskerville', serif;
+    font-size: 15px;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+  }
+
+  .exercise-theme {
+    font-size: 11px;
+    opacity: 0.7;
+    font-style: italic;
+  }
+
+  .exercise-points {
+    font-size: 12px;
+    background: rgba(255,255,255,0.15);
+    padding: 3px 10px;
+    border-radius: 2px;
+  }
+
+  .exercise-body {
+    padding: 22px 24px;
+  }
+
+  .exercise-intro {
+    font-size: 14px;
+    line-height: 1.75;
+    margin-bottom: 18px;
+    color: #2c3e50;
+  }
+
+  .context-box {
+    background: #f0ede6;
+    border: 1px solid var(--border);
+    padding: 14px 18px;
+    margin-bottom: 18px;
+    font-size: 13.5px;
+    line-height: 1.8;
+  }
+
+  .context-box .context-label {
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--hint);
+    margin-bottom: 8px;
+    display: block;
+  }
+
+  /* QUESTION */
+  .question {
+    margin-bottom: 22px;
+    padding-bottom: 22px;
+    border-bottom: 1px dashed var(--ruled);
+  }
+
+  .question:last-child {
+    border-bottom: none;
+    padding-bottom: 0;
+    margin-bottom: 0;
+  }
+
+  .question-label {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    margin-bottom: 12px;
+  }
+
+  .q-num {
+    background: var(--accent);
+    color: white;
+    font-size: 11px;
+    font-weight: 700;
+    min-width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 1px;
+    flex-shrink: 0;
+  }
+
+  .q-text {
+    font-size: 14px;
+    line-height: 1.7;
+    flex: 1;
+  }
+
+  .q-text em {
+    color: var(--hint);
+    font-style: italic;
+    font-size: 13px;
+  }
+
+  /* HINT */
+  .hint {
+    background: #eaf4fb;
+    border-left: 3px solid #3498db;
+    padding: 8px 14px;
+    margin-bottom: 10px;
+    font-size: 12.5px;
+    color: #2980b9;
+    line-height: 1.6;
+  }
+
+  .hint::before {
+    content: '💡 Aide — ';
+    font-weight: 600;
+  }
+
+  /* ANSWER */
+  .answer-area {
+    margin-top: 6px;
+  }
+
+  .answer-area label {
+    display: block;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--hint);
+    margin-bottom: 6px;
+  }
+
+  .answer-area textarea {
+    width: 100%;
+    border: 1.5px solid var(--border);
+    background: #fffffe;
+    font-family: 'Source Sans 3', sans-serif;
+    font-size: 14px;
+    padding: 10px 14px;
+    resize: vertical;
+    outline: none;
+    color: var(--ink);
+    line-height: 1.8;
+    min-height: 90px;
+    transition: border-color 0.2s;
+  }
+
+  .answer-area textarea:focus {
+    border-color: var(--accent);
+    background: #fffef9;
+  }
+
+  /* FORMULA REMINDER */
+  .formula-box {
+    background: #f8f4ff;
+    border: 1px solid #c9b8f0;
+    padding: 12px 16px;
+    margin-bottom: 14px;
+    font-size: 13px;
+  }
+
+  .formula-box .formula-label {
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: #7b68b0;
+    margin-bottom: 6px;
+    display: block;
+    font-weight: 600;
+  }
+
+  .formula-box code {
+    font-family: 'Libre Baskerville', serif;
+    font-style: italic;
+    font-size: 13.5px;
+    color: #4a3a8a;
+    line-height: 2;
+  }
+
+  /* PROGRESS */
+  .progress-bar-wrap {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    height: 4px;
+    background: rgba(0,0,0,0.1);
+    z-index: 100;
+  }
+
+  .progress-bar {
+    height: 100%;
+    background: var(--accent);
+    width: 0%;
+    transition: width 0.3s;
+  }
+
+  /* TIMER */
+  .timer-widget {
+    position: fixed;
+    top: 14px;
+    right: 20px;
+    background: var(--ink);
+    color: white;
+    padding: 8px 16px;
+    border-radius: 3px;
+    font-family: 'Libre Baskerville', serif;
+    font-size: 16px;
+    z-index: 200;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.3);
+  }
+
+  .timer-widget.warning { background: #e67e22; }
+  .timer-widget.danger { background: var(--accent); }
+
+  .timer-label {
+    font-size: 8px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    opacity: 0.6;
+    display: block;
+    margin-bottom: 2px;
+  }
+
+  /* SUBMIT SECTION */
+  .submit-section {
+    background: var(--paper);
+    border: 2px solid var(--ink);
+    padding: 28px 32px;
+    text-align: center;
+    margin-top: 24px;
+    position: relative;
+  }
+
+  .submit-section::before {
+    content: '';
+    position: absolute;
+    top: 6px; left: 6px; right: -6px; bottom: -6px;
+    background: var(--ink);
+    z-index: -1;
+  }
+
+  .submit-title {
+    font-family: 'Libre Baskerville', serif;
+    font-size: 18px;
+    margin-bottom: 8px;
+  }
+
+  .submit-subtitle {
+    font-size: 13px;
+    color: var(--hint);
+    margin-bottom: 22px;
+    line-height: 1.6;
+  }
+
+  .btn-export {
+    background: var(--accent);
+    color: white;
+    border: none;
+    padding: 14px 36px;
+    font-family: 'Source Sans 3', sans-serif;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    transition: background 0.2s, transform 0.1s;
+    border-radius: 2px;
+    margin-bottom: 12px;
+  }
+
+  .btn-export:hover { background: #a93226; }
+  .btn-export:active { transform: scale(0.98); }
+
+  .mail-info {
+    font-size: 12px;
+    color: var(--hint);
+    margin-top: 10px;
+  }
+
+  .mail-info a {
+    color: var(--accent);
+    text-decoration: none;
+    font-weight: 600;
+  }
+
+  /* SCORE TALLY */
+  .score-display {
+    background: var(--ink);
+    color: white;
+    padding: 10px 20px;
+    display: flex;
+    justify-content: space-between;
+    font-size: 13px;
+    margin-top: -1px;
+  }
+
+  /* Print/PDF styles */
+  @media print {
+    body { background: white; padding: 0; }
+    .timer-widget, .progress-bar-wrap, .submit-section, .btn-export { display: none; }
+    .exercise { break-inside: avoid; }
+    .page-wrapper { max-width: 100%; }
+  }
+</style>
+</head>
+<body>
+
+<div class="progress-bar-wrap">
+  <div class="progress-bar" id="progressBar"></div>
+</div>
+
+<div class="timer-widget" id="timerWidget">
+  <span class="timer-label">Temps restant</span>
+  <span id="timerDisplay">60:00</span>
+</div>
+
+<div class="page-wrapper" id="examContent">
+
+  <!-- HEADER -->
+  <div class="exam-header">
+    <div class="header-top">
+      <div class="school-info">
+        Lycée Professionnel · Saint-Étienne<br>
+        Année scolaire 2025–2026
+      </div>
+      <div class="exam-badge">Évaluation diagnostique</div>
+    </div>
+    <div class="exam-title">Mathématiques</div>
+    <div class="exam-subtitle">Évaluation de niveau — Terminale Bac Pro · Durée : 1 heure · Tous les exercices sont notés sur 20</div>
+    <div class="meta-grid">
+      <div class="meta-item">
+        <label>Nom</label>
+        <input type="text" id="nom" placeholder="Votre nom">
+      </div>
+      <div class="meta-item">
+        <label>Prénom</label>
+        <input type="text" id="prenom" placeholder="Votre prénom">
+      </div>
+      <div class="meta-item">
+        <label>Classe</label>
+        <input type="text" id="classe" placeholder="ex. : Tle Bac Pro MSPC">
+      </div>
+    </div>
+  </div>
+
+  <!-- INSTRUCTIONS -->
+  <div class="instructions">
+    <strong>Consignes générales.</strong> Cette évaluation dure <strong>1 heure</strong>. Lisez chaque énoncé avec soin avant de répondre. 
+    Montrez votre démarche : une réponse sans calcul ni justification ne sera pas acceptée. 
+    Les aides (💡) vous donnent des pistes, pas la réponse. La calculatrice est <strong>autorisée</strong>. 
+    À la fin, cliquez sur « Télécharger en PDF » et envoyez le fichier à votre professeur.
+  </div>
+
+  <!-- ===== EXERCICE 1 ===== -->
+  <div class="exercise">
+    <div class="exercise-header">
+      <span class="exercise-number">Exercice 1</span>
+      <span class="exercise-theme">Calcul littéral & équations</span>
+      <span class="exercise-points">5 points</span>
+    </div>
+    <div class="exercise-body">
+      <div class="exercise-intro">
+        Dans cet exercice, on travaille avec des expressions algébriques et des équations du premier et second degré.
+      </div>
+
+      <div class="question">
+        <div class="question-label">
+          <div class="q-num">1</div>
+          <div class="q-text">
+            Développer et réduire l'expression suivante : <br>
+            <strong>A = 3(2x − 4) + x(x + 1)</strong>
+            <br><em>(1 pt)</em>
+          </div>
+        </div>
+        <div class="hint">Utilise la distributivité : a(b + c) = ab + ac. Développe chaque produit séparément, puis regroupe les termes semblables.</div>
+        <div class="answer-area">
+          <label>Votre réponse</label>
+          <textarea class="answer-field" placeholder="Posez vos calculs ici, étape par étape..." rows="4"></textarea>
+        </div>
+      </div>
+
+      <div class="question">
+        <div class="question-label">
+          <div class="q-num">2</div>
+          <div class="q-text">
+            Factoriser l'expression : <strong>B = x² − 9</strong>
+            <br><em>(1 pt)</em>
+          </div>
+        </div>
+        <div class="hint">Reconnaissez-vous une identité remarquable du type a² − b² ? Si oui, de quelle forme s'agit-il, et quelle est sa factorisation ?</div>
+        <div class="answer-area">
+          <label>Votre réponse</label>
+          <textarea class="answer-field" placeholder="Identifiez l'identité utilisée, puis écrivez la forme factorisée." rows="3"></textarea>
+        </div>
+      </div>
+
+      <div class="question">
+        <div class="question-label">
+          <div class="q-num">3</div>
+          <div class="q-text">
+            Résoudre l'équation du second degré : <strong>x² − 5x + 6 = 0</strong>
+            <br><em>(2 pts)</em>
+          </div>
+        </div>
+        <div class="formula-box">
+          <span class="formula-label">📐 Rappel — Formule du discriminant</span>
+          <code>Δ = b² − 4ac</code><br>
+          <code>Si Δ > 0 : deux solutions x = (−b ± √Δ) / 2a</code><br>
+          <code>Si Δ = 0 : une solution x = −b / 2a</code>
+        </div>
+        <div class="hint">Identifiez les coefficients a, b et c, calculez le discriminant Δ, puis déduisez les solutions. Pensez aussi à vérifier vos solutions en les remplaçant dans l'équation.</div>
+        <div class="answer-area">
+          <label>Votre réponse</label>
+          <textarea class="answer-field" placeholder="a = ... b = ... c = ..., puis calcul de Δ, puis les solutions." rows="6"></textarea>
+        </div>
+      </div>
+
+      <div class="question">
+        <div class="question-label">
+          <div class="q-num">4</div>
+          <div class="q-text">
+            Un technicien calcule la résistance totale R d'un circuit en série à l'aide de la formule : <strong>R = R₁ + R₂</strong>. Il sait que <strong>R = 47 Ω</strong> et <strong>R₁ = 2R₂</strong>. Calculer R₁ et R₂.
+            <br><em>(1 pt)</em>
+          </div>
+        </div>
+        <div class="hint">Remplacez R₁ par 2R₂ dans la formule. Vous obtiendrez une équation en R₂ seulement — résolvez-la, puis trouvez R₁.</div>
+        <div class="answer-area">
+          <label>Votre réponse</label>
+          <textarea class="answer-field" placeholder="Posez l'équation, résolvez, puis donnez R₁ et R₂ en Ohms." rows="5"></textarea>
+        </div>
+      </div>
+
+    </div>
+    <div class="score-display">
+      <span>Exercice 1 · Calcul littéral & équations</span>
+      <span>/ 5 pts</span>
+    </div>
+  </div>
+
+  <!-- ===== EXERCICE 2 ===== -->
+  <div class="exercise">
+    <div class="exercise-header">
+      <span class="exercise-number">Exercice 2</span>
+      <span class="exercise-theme">Fonctions & variations</span>
+      <span class="exercise-points">5 points</span>
+    </div>
+    <div class="exercise-body">
+      <div class="context-box">
+        <span class="context-label">📋 Contexte — Production industrielle</span>
+        Un atelier de menuiserie fabrique des cadres. Le coût total de fabrication (en euros) de <em>x</em> cadres est modélisé par la fonction : 
+        <br><br><strong>f(x) = 2x² − 20x + 80</strong><br><br>
+        On suppose que <em>x</em> varie entre 0 et 15 cadres.
+      </div>
+
+      <div class="question">
+        <div class="question-label">
+          <div class="q-num">1</div>
+          <div class="q-text">
+            Calculer f(0), f(5) et f(10). Interpréter concrètement chaque résultat.
+            <br><em>(1,5 pt)</em>
+          </div>
+        </div>
+        <div class="hint">Remplacez simplement x par la valeur demandée dans la formule. Pour l'interprétation : que représente f(x) dans ce problème ?</div>
+        <div class="answer-area">
+          <label>Votre réponse</label>
+          <textarea class="answer-field" placeholder="f(0) = ...   Cela signifie que...&#10;f(5) = ...   Cela signifie que...&#10;f(10) = ...   Cela signifie que..." rows="7"></textarea>
+        </div>
+      </div>
+
+      <div class="question">
+        <div class="question-label">
+          <div class="q-num">2</div>
+          <div class="q-text">
+            Pour combien de cadres produits le coût est-il minimal ? Quel est ce coût minimum ?
+            <br><em>(2 pts)</em>
+          </div>
+        </div>
+        <div class="formula-box">
+          <span class="formula-label">📐 Rappel — Sommet d'une parabole</span>
+          <code>Pour f(x) = ax² + bx + c, le sommet a pour abscisse : xₛ = −b / (2a)</code>
+        </div>
+        <div class="hint">Calculez l'abscisse du sommet. Puisque a = 2 > 0, la parabole est tournée vers le haut : le sommet est donc un minimum. Vérifiez que xₛ est bien dans l'intervalle [0 ; 15].</div>
+        <div class="answer-area">
+          <label>Votre réponse</label>
+          <textarea class="answer-field" placeholder="Calcul de xₛ, puis calcul de f(xₛ). Conclusion rédigée." rows="6"></textarea>
+        </div>
+      </div>
+
+      <div class="question">
+        <div class="question-label">
+          <div class="q-num">3</div>
+          <div class="q-text">
+            Dresser le tableau de variations de f sur [0 ; 15].
+            <br><em>(1,5 pt)</em>
+          </div>
+        </div>
+        <div class="hint">Le tableau de variations doit contenir : les bornes 0 et 15, le sommet xₛ que vous venez de calculer, les valeurs f(0), f(xₛ) et f(15), et les flèches (↘ si f diminue, ↗ si f augmente).</div>
+        <div class="answer-area">
+          <label>Votre réponse</label>
+          <textarea class="answer-field" placeholder="x     |   0          xₛ = ...          15&#10;f(x)  | ...    ↘      ...       ↗     ..." rows="5"></textarea>
+        </div>
+      </div>
+
+    </div>
+    <div class="score-display">
+      <span>Exercice 2 · Fonctions & variations</span>
+      <span>/ 5 pts</span>
+    </div>
+  </div>
+
+  <!-- ===== EXERCICE 3 ===== -->
+  <div class="exercise">
+    <div class="exercise-header">
+      <span class="exercise-number">Exercice 3</span>
+      <span class="exercise-theme">Trigonométrie & géométrie</span>
+      <span class="exercise-points">5 points</span>
+    </div>
+    <div class="exercise-body">
+      <div class="context-box">
+        <span class="context-label">📋 Contexte — Pose d'une cloison</span>
+        Un menuisier installe une cloison oblique. Le mur forme un angle α avec le sol. La base de la cloison mesure <strong>4,2 m</strong>. En haut de la cloison, la hauteur mesurée verticalement est <strong>2,8 m</strong>.
+      </div>
+
+      <div class="question">
+        <div class="question-label">
+          <div class="q-num">1</div>
+          <div class="q-text">
+            Calculer l'angle α que forme la cloison avec le sol. Arrondir au degré près.
+            <br><em>(2 pts)</em>
+          </div>
+        </div>
+        <div class="formula-box">
+          <span class="formula-label">📐 Rappel — Trigonométrie dans un triangle rectangle</span>
+          <code>tan(α) = côté opposé / côté adjacent</code><br>
+          <code>sin(α) = côté opposé / hypoténuse</code><br>
+          <code>cos(α) = côté adjacent / hypoténuse</code>
+        </div>
+        <div class="hint">Vous connaissez la hauteur (côté opposé à α) et la base (côté adjacent à α). Quelle relation trigonométrique utilise-t-on avec ces deux longueurs ? Pensez à utiliser arctan (tan⁻¹) pour trouver l'angle.</div>
+        <div class="answer-area">
+          <label>Votre réponse</label>
+          <textarea class="answer-field" placeholder="Relation utilisée : ...&#10;Calcul : tan(α) = ...&#10;Donc α = arctan(...) = ...°" rows="5"></textarea>
+        </div>
+      </div>
+
+      <div class="question">
+        <div class="question-label">
+          <div class="q-num">2</div>
+          <div class="q-text">
+            Calculer la longueur réelle de la cloison (l'hypoténuse). Arrondir au centimètre près.
+            <br><em>(2 pts)</em>
+          </div>
+        </div>
+        <div class="hint">Vous connaissez deux côtés du triangle rectangle. Pensez au théorème de Pythagore ou à une relation trigonométrique impliquant l'hypoténuse. Les deux méthodes sont valides.</div>
+        <div class="answer-area">
+          <label>Votre réponse</label>
+          <textarea class="answer-field" placeholder="Méthode choisie : ...&#10;Calcul :&#10;Longueur = ... m" rows="5"></textarea>
+        </div>
+      </div>
+
+      <div class="question">
+        <div class="question-label">
+          <div class="q-num">3</div>
+          <div class="q-text">
+            Le menuisier doit commander des lambris pour couvrir la cloison. Chaque planche fait 15 cm de large. Combien de planches doit-il commander, sachant que la cloison mesure 3,6 m de profondeur (vers le fond) ? Justifier.
+            <br><em>(1 pt)</em>
+          </div>
+        </div>
+        <div class="hint">Calculez d'abord la surface totale de la cloison (longueur × profondeur). Ensuite, divisez par la largeur d'une planche — mais attention aux unités ! Pensez à arrondir au nombre entier supérieur.</div>
+        <div class="answer-area">
+          <label>Votre réponse</label>
+          <textarea class="answer-field" placeholder="Surface de la cloison : ...&#10;Largeur d'une planche en mètres : ...&#10;Nombre de planches : ... → on commande ..." rows="5"></textarea>
+        </div>
+      </div>
+
+    </div>
+    <div class="score-display">
+      <span>Exercice 3 · Trigonométrie & géométrie</span>
+      <span>/ 5 pts</span>
+    </div>
+  </div>
+
+  <!-- ===== EXERCICE 4 ===== -->
+  <div class="exercise">
+    <div class="exercise-header">
+      <span class="exercise-number">Exercice 4</span>
+      <span class="exercise-theme">Statistiques & proportionnalité</span>
+      <span class="exercise-points">5 points</span>
+    </div>
+    <div class="exercise-body">
+      <div class="context-box">
+        <span class="context-label">📋 Contexte — Contrôle qualité en atelier</span>
+        Un contremaître enregistre les durées de fabrication (en minutes) de 10 pièces produites dans la journée :<br><br>
+        <strong>18 — 22 — 20 — 25 — 19 — 21 — 23 — 17 — 24 — 21</strong>
+      </div>
+
+      <div class="question">
+        <div class="question-label">
+          <div class="q-num">1</div>
+          <div class="q-text">
+            Calculer la moyenne et la médiane de cette série. Comparer les deux valeurs.
+            <br><em>(2 pts)</em>
+          </div>
+        </div>
+        <div class="hint">
+          Pour la moyenne : additionner toutes les valeurs et diviser par le nombre de valeurs (10).<br>
+          Pour la médiane : classer les valeurs par ordre croissant — avec 10 valeurs, la médiane est la moyenne des 5ᵉ et 6ᵉ valeurs.
+        </div>
+        <div class="answer-area">
+          <label>Votre réponse</label>
+          <textarea class="answer-field" placeholder="Calcul de la moyenne : ...&#10;Valeurs classées : ...&#10;Calcul de la médiane : ...&#10;Comparaison : ..." rows="7"></textarea>
+        </div>
+      </div>
+
+      <div class="question">
+        <div class="question-label">
+          <div class="q-num">2</div>
+          <div class="q-text">
+            Calculer l'étendue de la série. Que nous indique-t-elle sur la régularité de la production ?
+            <br><em>(1 pt)</em>
+          </div>
+        </div>
+        <div class="hint">L'étendue = valeur maximale − valeur minimale. Plus l'étendue est petite, plus les durées sont régulières.</div>
+        <div class="answer-area">
+          <label>Votre réponse</label>
+          <textarea class="answer-field" placeholder="Étendue = ... − ... = ...&#10;Interprétation : ..." rows="4"></textarea>
+        </div>
+      </div>
+
+      <div class="question">
+        <div class="question-label">
+          <div class="q-num">3</div>
+          <div class="q-text">
+            L'objectif de l'atelier est de produire 40 pièces en 8 heures. Au rythme moyen calculé, l'objectif sera-t-il atteint ? Justifier par un calcul.
+            <br><em>(2 pts)</em>
+          </div>
+        </div>
+        <div class="hint">8 heures = combien de minutes ? Avec la durée moyenne par pièce, combien de pièces peut-on fabriquer en ce temps ? Comparez au objectif de 40 pièces.</div>
+        <div class="answer-area">
+          <label>Votre réponse</label>
+          <textarea class="answer-field" placeholder="8 heures = ... minutes&#10;Nombre de pièces possibles = ... / ... = ...&#10;Conclusion : ..." rows="6"></textarea>
+        </div>
+      </div>
+
+    </div>
+    <div class="score-display">
+      <span>Exercice 4 · Statistiques & proportionnalité</span>
+      <span>/ 5 pts</span>
+    </div>
+  </div>
+
+  <!-- SUBMIT -->
+  <div class="submit-section" id="submitSection">
+    <div class="submit-title">Fin de l'évaluation</div>
+    <div class="submit-subtitle">
+      Vérifiez que votre nom, prénom et classe sont bien renseignés en haut de l'évaluation.<br>
+      Cliquez ensuite sur le bouton ci-dessous pour générer votre PDF.
+    </div>
+    <button class="btn-export" onclick="exportPDF()">⬇ Télécharger en PDF</button>
+    <div class="mail-info">
+      Envoyez ensuite votre PDF à : <a href="mailto:arnaud.reydellet@ac-lyon.fr">arnaud.reydellet@ac-lyon.fr</a>
+    </div>
+  </div>
+
+</div><!-- end page-wrapper -->
+
+<script>
+  // ---- TIMER ----
+  const DURATION = 60 * 60; // 60 minutes
+  let timeLeft = DURATION;
+  let timerInterval;
+
+  function startTimer() {
+    timerInterval = setInterval(() => {
+      timeLeft--;
+      const m = Math.floor(timeLeft / 60).toString().padStart(2,'0');
+      const s = (timeLeft % 60).toString().padStart(2,'0');
+      document.getElementById('timerDisplay').textContent = m + ':' + s;
+
+      const widget = document.getElementById('timerWidget');
+      if (timeLeft <= 300 && timeLeft > 60) widget.className = 'timer-widget warning';
+      if (timeLeft <= 60) widget.className = 'timer-widget danger';
+      if (timeLeft <= 0) {
+        clearInterval(timerInterval);
+        document.getElementById('timerDisplay').textContent = '00:00';
+        alert("⏰ Le temps est écoulé ! Téléchargez maintenant votre évaluation.");
+      }
+    }, 1000);
+  }
+
+  // ---- PROGRESS ----
+  function updateProgress() {
+    const fields = document.querySelectorAll('.answer-field');
+    let filled = 0;
+    fields.forEach(f => { if (f.value.trim().length > 3) filled++; });
+    const pct = (filled / fields.length) * 100;
+    document.getElementById('progressBar').style.width = pct + '%';
+  }
+
+  document.querySelectorAll('.answer-field').forEach(f => {
+    f.addEventListener('input', updateProgress);
+  });
+
+  // ---- EXPORT PDF ----
+  function exportPDF() {
+    const nom = document.getElementById('nom').value.trim() || 'Eleve';
+    const prenom = document.getElementById('prenom').value.trim() || '';
+    const classe = document.getElementById('classe').value.trim() || 'Classe';
+
+    if (!nom || nom === 'Eleve') {
+      alert("⚠️ Attention : pensez à renseigner votre nom avant de télécharger !");
+    }
+
+    // Hide timer & submit button for PDF
+    document.getElementById('timerWidget').style.display = 'none';
+    document.getElementById('submitSection').style.display = 'none';
+    document.querySelector('.progress-bar-wrap').style.display = 'none';
+
+    const filename = `Evaluation_Maths_TermBacPro_${nom}_${prenom}.pdf`;
+
+    const opt = {
+      margin: [12, 12, 14, 12],
+      filename: filename,
+      image: { type: 'jpeg', quality: 0.97 },
+      html2canvas: { scale: 2, useCORS: true, letterRendering: true },
+      jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+    };
+
+    html2pdf().set(opt).from(document.getElementById('examContent')).save().then(() => {
+      document.getElementById('timerWidget').style.display = 'block';
+      document.getElementById('submitSection').style.display = 'block';
+      document.querySelector('.progress-bar-wrap').style.display = 'block';
+    });
+  }
+
+  // Start
+  startTimer();
+</script>
+</body>
+</html>
